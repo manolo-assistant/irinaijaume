@@ -42,11 +42,6 @@
 
 
   /* === Prefilled name inputs === */
-  .name-fields {
-    display: flex;
-    gap: 0.6rem;
-    margin-bottom: 0.8rem;
-  }
   .name-input {
     flex: 1;
     font-family: 'Cormorant Garamond', serif;
@@ -652,10 +647,7 @@
       <div class="form-section" id="person1-section">
         <p class="form-section-title" id="label-attending-q">Will You Be Joining Us?</p>
         <div class="person-block">
-          <div class="name-fields">
-            <input type="text" id="person1-name-input" name="person1_name" class="name-input" placeholder="First name">
-            <input type="text" id="person1-surname-input" name="person1_surname" class="name-input" placeholder="Surname">
-          </div>
+          <input type="text" id="person1-name-input" name="person1_name" class="name-input" placeholder="Full name">
           <div class="attending-options">
             <label class="radio-label">
               <input type="radio" name="person1_attending" value="yes" required>
@@ -676,10 +668,7 @@
       <!-- Person 2 (hidden if solo guest) -->
       <div class="form-section" id="person2-section" style="display:none;">
         <div class="person-block">
-          <div class="name-fields">
-            <input type="text" id="person2-name-input" name="person2_name" class="name-input" placeholder="First name">
-            <input type="text" id="person2-surname-input" name="person2_surname" class="name-input" placeholder="Surname">
-          </div>
+          <input type="text" id="person2-name-input" name="person2_name" class="name-input" placeholder="Full name">
           <div class="attending-options">
             <label class="radio-label">
               <input type="radio" name="person2_attending" value="yes" id="radio-p2-yes">
@@ -902,17 +891,13 @@
 
     // Person 1 — prefill editable inputs
     const $p1name = document.getElementById('person1-name-input');
-    const $p1surname = document.getElementById('person1-surname-input');
-    if ($p1name) $p1name.value = guest.person1_name || '';
-    if ($p1surname) $p1surname.value = guest.person1_surname || '';
+    if ($p1name) $p1name.value = [guest.person1_name, guest.person1_surname].filter(Boolean).join(' ');
 
     // Person 2
     if (guest.person2_name) {
       $person2Section.style.display = 'block';
       const $p2name = document.getElementById('person2-name-input');
-      const $p2surname = document.getElementById('person2-surname-input');
-      if ($p2name) $p2name.value = guest.person2_name || '';
-      if ($p2surname) $p2surname.value = guest.person2_surname || '';
+      if ($p2name) $p2name.value = [guest.person2_name, guest.person2_surname].filter(Boolean).join(' ');
     }
 
     // Plus one
