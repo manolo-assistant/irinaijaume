@@ -69,6 +69,42 @@
     font-style: italic;
     font-weight: 300;
   }
+
+  /* === Language toggle (matches index.html) === */
+  .lang-toggle {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 20;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: 1px solid var(--gold-pale);
+    border-radius: 3px;
+    padding: 0.4em 0.6em;
+    background: rgba(250, 243, 232, 0.85);
+  }
+  .lang-toggle a {
+    color: var(--soft-brown);
+    text-decoration: none;
+    cursor: pointer;
+    padding: 0.15em 0.3em;
+    transition: color 0.3s ease, opacity 0.3s ease;
+    opacity: 0.5;
+  }
+  .lang-toggle a:hover { opacity: 1; color: var(--gold); }
+  .lang-toggle a.active {
+    color: var(--soft-brown);
+    opacity: 1;
+    font-weight: 600;
+  }
+  .lang-toggle .sep {
+    color: var(--soft-brown);
+    opacity: 0.4;
+    margin: 0 0.1em;
+  }
+
   /* === Trencadís mosaic background === */
   .bg-trencadis {
     position: fixed;
@@ -464,6 +500,10 @@
 <body>
 
 <!-- Trencadís background (same as index.html) -->
+<div class="lang-toggle" id="lang-toggle">
+  <a data-lang="ca">CA</a><span class="sep">·</span><a data-lang="es">ES</a><span class="sep">·</span><a data-lang="en">EN</a>
+</div>
+
 <div class="bg-trencadis">
 <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -843,6 +883,13 @@
     showGenericForm();
   }
 
+
+  // Language toggle click handler
+  document.getElementById('lang-toggle').addEventListener('click', function(e) {
+    const lang = e.target.getAttribute('data-lang');
+    if (lang) setLanguage(lang);
+  });
+
   function showFormForGuest(guest) {
     guestData = guest;
     setLanguage(guest.language || 'en');
@@ -1021,6 +1068,11 @@
   function setLanguage(lang) {
     if (!T[lang]) lang = 'en';
     currentLang = lang;
+
+    // Update toggle active state
+    document.querySelectorAll('#lang-toggle a[data-lang]').forEach(function(a) {
+      a.classList.toggle('active', a.getAttribute('data-lang') === lang);
+    });
     const t = T[lang];
 
     // Set html lang attribute
