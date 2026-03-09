@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>RSVP — Jaume & Irina</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+
+  :root {
+    --gold: #C4993B;
+    --gold-light: #D4AF5C;
+    --gold-pale: #E8D5A3;
+    --terracotta: #B85C38;
+    --terracotta-deep: #8B3A2A;
+    --cream: #FAF3E8;
+    --warm-white: #FDF8F0;
+    --sage: #7A8B6F;
+    --deep-green: #3D5A3E;
+    --charcoal: #2C2C2C;
+    --soft-brown: #6B5344;
+    --blush: #E8D5C4;
+    --mosaic-blue: #4A7B8C;
+    --mosaic-teal: #3A7D6E;
+    --deep-teal: #1B5E5A;
+    --burgundy: #6B1D3A;
+    --stained-rose: #C45C72;
+    --mosaic-amber: #D4943A;
+    --mosaic-cobalt: #2E5090;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Cormorant Garamond', serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === Trencadís mosaic background === */
+  .bg-trencadis {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.035;
+  }
+  .bg-trencadis svg { width: 100%; height: 100%; }
+
+  /* === Page frame === */
+  .page-frame {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 1.5rem 4rem;
+    z-index: 1;
+  }
+
+  .page-frame::before {
+    content: '';
+    position: fixed;
+    inset: 10px;
+    border: 1.5px solid var(--gold-light);
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .page-frame::after {
+    content: '';
+    position: fixed;
+    inset: 16px;
+    border: 0.5px solid var(--gold-pale);
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* === Corner ornaments === */
+  .corner-ornament {
+    position: fixed;
+    width: 120px;
+    height: 120px;
+    opacity: 0.15;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .corner-ornament svg { width: 100%; height: 100%; }
+  .corner-tl { top: 16px; left: 16px; }
+  .corner-tr { top: 16px; right: 16px; transform: scaleX(-1); }
+  .corner-bl { bottom: 16px; left: 16px; transform: scaleY(-1); }
+  .corner-br { bottom: 16px; right: 16px; transform: scale(-1, -1); }
+
+  /* === Content === */
+  .content {
+    text-align: center;
+    max-width: 580px;
+    width: 100%;
+    animation: fadeIn 2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .page-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+
+  .names-header {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+  }
+
+  .names-header .amp {
+    font-style: italic;
+    font-size: 0.55em;
+    color: var(--gold);
+    margin: 0 0.3em;
+  }
+
+  .event-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: var(--soft-brown);
+    margin-top: 0.5rem;
+  }
+
+  /* === Guest greeting === */
+  .guest-greeting {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 3vw, 1.35rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--sage);
+    margin: 2rem 0 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .guest-names-display {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 1.5rem;
+  }
+
+  /* === Ornamental divider === */
+  .ornament-divider {
+    display: block;
+    margin: 1.5rem auto;
+    max-width: 280px;
+    height: auto;
+  }
+
+  /* === Form === */
+  .rsvp-form {
+    text-align: left;
+    margin-top: 1rem;
+  }
+
+  .form-section {
+    margin-bottom: 2rem;
+  }
+
+  .form-section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 0.5px solid var(--gold-pale);
+  }
+
+  .person-block {
+    margin-bottom: 1.5rem;
+  }
+
+  .person-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--charcoal);
+    margin-bottom: 0.8rem;
+  }
+
+  /* Radio buttons */
+  .attending-options {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--charcoal);
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .radio-label:hover { color: var(--gold); }
+
+  .radio-label input[type="radio"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--gold-light);
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+
+  .radio-label input[type="radio"]:checked {
+    border-color: var(--gold);
+  }
+
+  .radio-label input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  /* Text inputs */
+  label.field-label {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--sage);
+    margin-bottom: 0.3rem;
+  }
+
+  input[type="text"],
+  textarea {
+    width: 100%;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--charcoal);
+    background: var(--warm-white);
+    border: 1px solid var(--gold-pale);
+    border-radius: 2px;
+    padding: 0.6rem 0.8rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+  }
+
+  input[type="text"]:focus,
+  textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(196, 153, 59, 0.1);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .field-hint {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--sage);
+    margin-top: 0.2rem;
+    opacity: 0.7;
+  }
+
+  /* Generic name inputs (when no URL params) */
+  .generic-names {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Submit button */
+  .submit-btn {
+    display: block;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 0.8rem 2rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+  }
+
+  .submit-btn:hover {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Back link */
+  .back-link {
+    display: inline-block;
+    margin-top: 2rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+  }
+
+  .back-link:hover { opacity: 1; }
+
+  /* === Confirmation state === */
+  .confirmation {
+    display: none;
+    text-align: center;
+    animation: fadeIn 1.5s ease-out;
+  }
+
+  .confirmation.visible { display: block; }
+
+  .confirmation-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .confirmation h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.5rem;
+  }
+
+  .confirmation p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--sage);
+    line-height: 1.6;
+  }
+
+  /* === Error state === */
+  .error-msg {
+    display: none;
+    background: rgba(184, 92, 56, 0.08);
+    border: 1px solid var(--terracotta);
+    border-radius: 2px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: var(--terracotta-deep);
+  }
+
+  .error-msg.visible { display: block; }
+
+  /* === Plus-one section (hidden by default) === */
+  .plus-one-section { display: none; }
+  .plus-one-section.visible { display: block; }
+
+  /* === Mosaic accent bar === */
+  .mosaic-accent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    z-index: 11;
+    overflow: hidden;
+  }
+  .mosaic-accent svg { width: 100%; height: 100%; }
+
+  /* === Loading spinner === */
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .loading.visible { display: block; }
+
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--gold-pale);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 1rem;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* === Responsive === */
+  @media (max-width: 480px) {
+    .page-frame { padding: 2.5rem 1.2rem 3rem; }
+    .corner-ornament { width: 70px; height: 70px; }
+    .page-frame::before { inset: 6px; }
+    .page-frame::after { inset: 10px; }
+    .generic-names { grid-template-columns: 1fr; }
+    .attending-options { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Trencadís background (same as index.html) -->
+<div class="bg-trencadis">
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="trencadis" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+      <polygon points="0,0 18,3 15,20 2,17" fill="#C4993B" opacity="0.4"/>
+      <polygon points="20,0 42,2 38,18 17,22" fill="#3A7D6E" opacity="0.35"/>
+      <polygon points="44,1 60,0 62,15 40,19" fill="#B85C38" opacity="0.3"/>
+      <polygon points="62,2 80,0 82,17 65,14" fill="#4A7B8C" opacity="0.35"/>
+      <polygon points="82,0 100,3 98,20 80,18" fill="#C4993B" opacity="0.3"/>
+      <polygon points="100,1 120,0 120,18 102,16" fill="#6B1D3A" opacity="0.25"/>
+      <polygon points="3,20 17,23 20,42 5,38" fill="#2E5090" opacity="0.25"/>
+      <polygon points="19,24 40,20 43,40 22,44" fill="#D4943A" opacity="0.3"/>
+      <polygon points="42,21 63,17 60,42 38,38" fill="#1B5E5A" opacity="0.3"/>
+      <polygon points="65,16 84,19 80,40 60,44" fill="#C45C72" opacity="0.25"/>
+      <polygon points="85,20 100,22 102,42 83,38" fill="#7A8B6F" opacity="0.3"/>
+      <polygon points="102,18 120,20 120,40 104,43" fill="#C4993B" opacity="0.25"/>
+      <polygon points="0,40 20,43 18,62 3,58" fill="#3A7D6E" opacity="0.3"/>
+      <polygon points="22,45 42,42 45,60 20,65" fill="#C4993B" opacity="0.35"/>
+      <polygon points="44,40 62,45 58,65 40,62" fill="#4A7B8C" opacity="0.3"/>
+      <polygon points="60,46 82,42 85,60 62,63" fill="#B85C38" opacity="0.25"/>
+      <polygon points="84,40 103,44 100,62 82,65" fill="#6B1D3A" opacity="0.3"/>
+      <polygon points="104,44 120,42 120,63 100,60" fill="#2E5090" opacity="0.25"/>
+      <polygon points="2,60 20,63 18,82 0,80" fill="#D4943A" opacity="0.25"/>
+      <polygon points="18,65 42,62 40,83 22,80" fill="#1B5E5A" opacity="0.3"/>
+      <polygon points="42,64 60,67 62,82 44,85" fill="#C45C72" opacity="0.3"/>
+      <polygon points="63,65 83,63 80,85 58,82" fill="#C4993B" opacity="0.3"/>
+      <polygon points="83,66 102,62 105,82 85,86" fill="#7A8B6F" opacity="0.25"/>
+      <polygon points="103,64 120,65 120,84 105,80" fill="#3A7D6E" opacity="0.3"/>
+      <polygon points="0,82 20,84 22,100 18,120 0,120" fill="#4A7B8C" opacity="0.25"/>
+      <polygon points="22,82 42,85 40,105 44,120 20,120" fill="#C4993B" opacity="0.3"/>
+      <polygon points="44,86 62,84 65,102 60,120 42,120" fill="#B85C38" opacity="0.25"/>
+      <polygon points="64,84 82,86 80,105 82,120 62,120" fill="#2E5090" opacity="0.3"/>
+      <polygon points="84,87 104,82 102,102 100,120 80,120" fill="#D4943A" opacity="0.25"/>
+      <polygon points="106,82 120,85 120,120 102,120 100,100" fill="#1B5E5A" opacity="0.3"/>
+      <line x1="0" y1="20" x2="120" y2="18" stroke="#FAF3E8" stroke-width="1.5" opacity="0.6"/>
+      <line x1="2" y1="42" x2="120" y2="40" stroke="#FAF3E8" stroke-width="1.2" opacity="0.5"/>
+      <line x1="0" y1="62" x2="120" y2="65" stroke="#FAF3E8" stroke-width="1.5" opacity="0.6"/>
+      <line x1="3" y1="84" x2="120" y2="82" stroke="#FAF3E8" stroke-width="1.2" opacity="0.5"/>
+      <line x1="20" y1="0" x2="18" y2="120" stroke="#FAF3E8" stroke-width="1.2" opacity="0.5"/>
+      <line x1="42" y1="0" x2="40" y2="120" stroke="#FAF3E8" stroke-width="1" opacity="0.4"/>
+      <line x1="62" y1="0" x2="60" y2="120" stroke="#FAF3E8" stroke-width="1.2" opacity="0.5"/>
+      <line x1="83" y1="0" x2="82" y2="120" stroke="#FAF3E8" stroke-width="1" opacity="0.4"/>
+      <line x1="103" y1="0" x2="100" y2="120" stroke="#FAF3E8" stroke-width="1.2" opacity="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#trencadis)"/>
+</svg>
+</div>
+
+<!-- Corner ornaments (same as index.html) -->
+<div class="corner-ornament corner-tl"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5,115 C5,50 50,5 115,5" fill="none" stroke="#C4993B" stroke-width="1.8"/>
+  <path d="M8,115 C12,65 45,30 80,15 C60,40 35,65 25,90" fill="none" stroke="#C4993B" stroke-width="1.2"/>
+  <path d="M80,15 C78,10 72,8 70,12 C68,18 74,22 80,15" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M55,30 C50,25 44,26 44,32 C44,38 52,38 55,30" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M35,55 C30,50 24,52 24,58 C24,64 32,64 35,55" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M18,95 C15,85 22,78 28,82 C34,86 28,94 20,92" fill="none" stroke="#C4993B" stroke-width="0.8"/>
+  <circle cx="80" cy="15" r="1.5" fill="#C4993B" opacity="0.5"/>
+  <circle cx="55" cy="30" r="1.2" fill="#C4993B" opacity="0.4"/>
+</svg></div>
+<div class="corner-ornament corner-tr"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5,115 C5,50 50,5 115,5" fill="none" stroke="#C4993B" stroke-width="1.8"/>
+  <path d="M8,115 C12,65 45,30 80,15 C60,40 35,65 25,90" fill="none" stroke="#C4993B" stroke-width="1.2"/>
+  <path d="M80,15 C78,10 72,8 70,12 C68,18 74,22 80,15" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M55,30 C50,25 44,26 44,32 C44,38 52,38 55,30" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <circle cx="80" cy="15" r="1.5" fill="#C4993B" opacity="0.5"/>
+</svg></div>
+<div class="corner-ornament corner-bl"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5,115 C5,50 50,5 115,5" fill="none" stroke="#C4993B" stroke-width="1.8"/>
+  <path d="M8,115 C12,65 45,30 80,15 C60,40 35,65 25,90" fill="none" stroke="#C4993B" stroke-width="1.2"/>
+  <path d="M80,15 C78,10 72,8 70,12 C68,18 74,22 80,15" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <circle cx="80" cy="15" r="1.5" fill="#C4993B" opacity="0.5"/>
+</svg></div>
+<div class="corner-ornament corner-br"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5,115 C5,50 50,5 115,5" fill="none" stroke="#C4993B" stroke-width="1.8"/>
+  <path d="M8,115 C12,65 45,30 80,15 C60,40 35,65 25,90" fill="none" stroke="#C4993B" stroke-width="1.2"/>
+  <path d="M80,15 C78,10 72,8 70,12 C68,18 74,22 80,15" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <circle cx="80" cy="15" r="1.5" fill="#C4993B" opacity="0.5"/>
+</svg></div>
+
+<div class="page-frame">
+  <div class="content">
+
+    <!-- Rose window (compact, matching index.html) -->
+    <svg style="display:block;margin:0 auto 1rem;width:60px;height:60px;opacity:0.25;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="45" fill="none" stroke="#C4993B" stroke-width="1.2"/>
+      <circle cx="50" cy="50" r="38" fill="none" stroke="#C4993B" stroke-width="0.6"/>
+      <circle cx="50" cy="50" r="15" fill="none" stroke="#C45C72" stroke-width="0.8" opacity="0.6"/>
+      <circle cx="50" cy="50" r="8" fill="none" stroke="#C4993B" stroke-width="0.5"/>
+      <path d="M50,12 C55,25 55,35 50,38 C45,35 45,25 50,12" fill="none" stroke="#6B1D3A" stroke-width="0.7" opacity="0.5"/>
+      <path d="M50,88 C55,75 55,65 50,62 C45,65 45,75 50,88" fill="none" stroke="#6B1D3A" stroke-width="0.7" opacity="0.5"/>
+      <path d="M12,50 C25,55 35,55 38,50 C35,45 25,45 12,50" fill="none" stroke="#6B1D3A" stroke-width="0.7" opacity="0.5"/>
+      <path d="M88,50 C75,55 65,55 62,50 C65,45 75,45 88,50" fill="none" stroke="#6B1D3A" stroke-width="0.7" opacity="0.5"/>
+    </svg>
+
+    <p class="page-title">Répondez S'il Vous Plaît</p>
+
+    <h1 class="names-header">Jaume <span class="amp">&amp;</span> Irina</h1>
+
+    <p class="event-date">Friday, 25 September 2026 · 7pm · Cotton House · Barcelona</p>
+
+    <!-- Ornamental divider -->
+    <svg class="ornament-divider" viewBox="0 0 280 24" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="12" x2="260" y2="12" stroke="#C4993B" stroke-width="0.4" opacity="0.3"/>
+      <path d="M140,6 C135,1 130,4 133,9 C135,12 139,10 140,6" fill="none" stroke="#C4993B" stroke-width="0.8" opacity="0.5"/>
+      <path d="M140,6 C145,1 150,4 147,9 C145,12 141,10 140,6" fill="none" stroke="#C4993B" stroke-width="0.8" opacity="0.5"/>
+      <circle cx="140" cy="5" r="1.3" fill="#C4993B" opacity="0.4"/>
+      <path d="M133,9 Q115,14 90,12" fill="none" stroke="#C4993B" stroke-width="0.5" opacity="0.3"/>
+      <path d="M147,9 Q165,14 190,12" fill="none" stroke="#C4993B" stroke-width="0.5" opacity="0.3"/>
+    </svg>
+
+    <!-- Guest greeting (populated by JS) -->
+    <div id="guest-info" style="display:none;">
+      <p class="guest-greeting">We joyfully invite</p>
+      <p class="guest-names-display" id="guest-names-display"></p>
+    </div>
+
+    <!-- Loading state -->
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p style="font-style:italic;color:var(--sage);">Loading your invitation…</p>
+    </div>
+
+    <!-- Error message -->
+    <div class="error-msg" id="error-msg"></div>
+
+    <!-- RSVP Form -->
+    <form class="rsvp-form" id="rsvp-form" style="display:none;">
+
+      <!-- Generic name inputs (shown only when no URL params) -->
+      <div class="form-section" id="generic-names-section" style="display:none;">
+        <p class="form-section-title">Your Details</p>
+        <div class="generic-names">
+          <div>
+            <label class="field-label" for="gen-name1">First Name</label>
+            <input type="text" id="gen-name1" name="person1_name" required>
+          </div>
+          <div>
+            <label class="field-label" for="gen-surname1">Surname</label>
+            <input type="text" id="gen-surname1" name="person1_surname" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Person 1 -->
+      <div class="form-section" id="person1-section">
+        <p class="form-section-title">Will You Be Joining Us?</p>
+        <div class="person-block">
+          <p class="person-name" id="person1-label">Guest</p>
+          <div class="attending-options">
+            <label class="radio-label">
+              <input type="radio" name="person1_attending" value="yes" required>
+              Joyfully accepts
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="person1_attending" value="no">
+              Regretfully declines
+            </label>
+          </div>
+          <div style="margin-top:0.6rem;">
+            <label class="field-label" for="person1-dietary">Dietary requirements or allergies</label>
+            <input type="text" id="person1-dietary" name="person1_dietary" placeholder="Vegetarian, vegan, gluten-free, allergies…">
+          </div>
+        </div>
+      </div>
+
+      <!-- Person 2 (hidden if solo guest) -->
+      <div class="form-section" id="person2-section" style="display:none;">
+        <div class="person-block">
+          <p class="person-name" id="person2-label">Guest 2</p>
+          <div class="attending-options">
+            <label class="radio-label">
+              <input type="radio" name="person2_attending" value="yes">
+              Joyfully accepts
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="person2_attending" value="no">
+              Regretfully declines
+            </label>
+          </div>
+          <div style="margin-top:0.6rem;">
+            <label class="field-label" for="person2-dietary">Dietary requirements or allergies</label>
+            <input type="text" id="person2-dietary" name="person2_dietary" placeholder="Vegetarian, vegan, gluten-free, allergies…">
+          </div>
+        </div>
+      </div>
+
+      <!-- Plus-one (hidden unless allowed) -->
+      <!-- Additional family members (kids etc, hidden unless party_size > 2) -->
+      <div class="form-section" id="family-extras-section" style="display:none;">
+        <p class="section-label">Additional family members</p>
+        <div class="field-group">
+          <label class="field-label" for="family-extras-count">How many additional family members will attend?</label>
+          <select id="family-extras-count" name="family_extras_count" class="field-input">
+            <option value="0">None</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-section plus-one-section" id="plus-one-section">
+        <p class="form-section-title">Your Plus One</p>
+        <div>
+          <label class="field-label" for="plus-one-name">Guest name</label>
+          <input type="text" id="plus-one-name" name="plus_one_name" placeholder="Full name">
+        </div>
+        <div style="margin-top:0.6rem;">
+          <label class="field-label" for="plus-one-dietary">Their dietary requirements</label>
+          <input type="text" id="plus-one-dietary" name="plus_one_dietary" placeholder="Vegetarian, vegan, gluten-free, allergies…">
+        </div>
+      </div>
+
+      <!-- Fun question -->
+      <div class="form-section">
+        <p class="form-section-title">One More Thing</p>
+        <label class="field-label" for="song-request">🎵 What song will get you on the dance floor?</label>
+        <input type="text" id="song-request" name="song_request" placeholder="Song — Artist">
+        <p class="field-hint">Help us build the perfect playlist!</p>
+      </div>
+
+      <!-- Message -->
+      <div class="form-section">
+        <label class="field-label" for="message">A message for the couple (optional)</label>
+        <textarea id="message" name="message" placeholder="We're so happy for you…"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Send Your Reply</button>
+    </form>
+
+    <!-- Confirmation -->
+    <div class="confirmation" id="confirmation">
+      <div class="confirmation-icon">🌿</div>
+      <h2>Thank You!</h2>
+      <p id="confirmation-text">Your response has been received.<br>We can't wait to celebrate with you in Barcelona!</p>
+    </div>
+
+    <a href="index.html" class="back-link">← Back to Save the Date</a>
+
+    <!-- Bottom ornament -->
+    <svg style="display:block;margin:2rem auto 0;max-width:200px;" viewBox="0 0 200 30" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10,15 Q50,5 100,15 Q150,25 190,15" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.3"/>
+      <line x1="100" y1="8" x2="100" y2="22" stroke="#C4993B" stroke-width="0.6" opacity="0.4"/>
+      <path d="M100,11 C96,7 92,9 94,13 C96,16 99,14 100,11" fill="none" stroke="#C4993B" stroke-width="0.5" opacity="0.35"/>
+      <path d="M100,11 C104,7 108,9 106,13 C104,16 101,14 100,11" fill="none" stroke="#C4993B" stroke-width="0.5" opacity="0.35"/>
+    </svg>
+
+  </div>
+</div>
+
+<!-- Mosaic accent bar -->
+<div class="mosaic-accent">
+<svg width="100%" height="6" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <defs>
+    <pattern id="mosaic-bar" x="0" y="0" width="60" height="6" patternUnits="userSpaceOnUse">
+      <polygon points="0,0 10,0 9,6 1,6" fill="#3A7D6E" opacity="0.7"/>
+      <polygon points="11,0 22,0 20,6 10,6" fill="#C4993B" opacity="0.8"/>
+      <polygon points="23,0 34,0 32,6 21,6" fill="#B85C38" opacity="0.7"/>
+      <polygon points="35,0 44,0 43,6 33,6" fill="#2E5090" opacity="0.6"/>
+      <polygon points="45,0 54,0 53,6 44,6" fill="#D4943A" opacity="0.7"/>
+      <polygon points="55,0 60,0 60,6 54,6" fill="#6B1D3A" opacity="0.6"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="6" fill="url(#mosaic-bar)"/>
+</svg>
+</div>
+
+<script>
+(function() {
+  // ============================================================
+  // CONFIGURATION — Update this after deploying Apps Script
+  // ============================================================
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw9QNdCuZbz5y1f2dEC_o0LK0Zn1zJSJJA7vyQBxmZRaWHCkuUMagAtJD8Ek-s_s88UNg/exec';
+
+  // ============================================================
+  // Parse URL parameters
+  // ============================================================
+  const params = new URLSearchParams(window.location.search);
+  const guestId = params.get('id');
+  const name1 = params.get('name1');
+  const surname1 = params.get('surname1');
+  const name2 = params.get('name2');
+  const surname2 = params.get('surname2');
+
+  const hasParams = guestId || (name1 && surname1);
+
+  // ============================================================
+  // Fire view beacon (fire-and-forget)
+  // ============================================================
+  if (hasParams) {
+    const beaconParams = new URLSearchParams();
+    if (guestId) beaconParams.set('id', guestId);
+    if (name1) beaconParams.set('name1', name1);
+    if (surname1) beaconParams.set('surname1', surname1);
+    if (name2) beaconParams.set('name2', name2);
+    if (surname2) beaconParams.set('surname2', surname2);
+    beaconParams.set('ua', navigator.userAgent);
+
+    // Fire and forget — no-cors so we can't read response
+    fetch(APPS_SCRIPT_URL + '?' + beaconParams.toString(), { mode: 'no-cors' }).catch(() => {});
+  }
+
+  // ============================================================
+  // DOM elements
+  // ============================================================
+  const $loading = document.getElementById('loading');
+  const $form = document.getElementById('rsvp-form');
+  const $guestInfo = document.getElementById('guest-info');
+  const $guestNames = document.getElementById('guest-names-display');
+  const $genericNames = document.getElementById('generic-names-section');
+  const $person1Label = document.getElementById('person1-label');
+  const $person2Section = document.getElementById('person2-section');
+  const $person2Label = document.getElementById('person2-label');
+  const $plusOneSection = document.getElementById('plus-one-section');
+  const $confirmation = document.getElementById('confirmation');
+  const $confirmationText = document.getElementById('confirmation-text');
+  const $errorMsg = document.getElementById('error-msg');
+  const $submitBtn = document.getElementById('submit-btn');
+
+  // ============================================================
+  // Guest lookup and form setup
+  // ============================================================
+  let guestData = null;
+
+  if (hasParams) {
+    $loading.classList.add('visible');
+
+    // Try to look up guest info via doGet (JSONP-style via script tag since no-cors)
+    // Actually, we use the URL params directly for display and look up asynchronously
+    // Since Apps Script CORS is tricky, we'll use readable params for immediate display
+    // and fire the lookup in background
+
+    // Immediate display from URL params
+    if (name1) {
+      let displayName = name1 + (surname1 ? ' ' + surname1 : '');
+      if (name2) {
+        displayName += ' & ' + name2 + (surname2 ? ' ' + surname2 : '');
+      }
+      showFormForGuest({
+        id: guestId || '',
+        group_label: displayName,
+        person1_name: name1,
+        person1_surname: surname1 || '',
+        person2_name: name2 || null,
+        person2_surname: surname2 || null,
+        plus_one_allowed: false,
+        party_size: name2 ? 2 : 1,
+      });
+    } else if (guestId) {
+      // JSONP lookup to avoid CORS issues with Apps Script
+      const cbName = '__rsvpCb_' + Date.now();
+      const s = document.createElement('script');
+      window[cbName] = function(data) {
+        try { delete window[cbName]; document.head.removeChild(s); } catch(e) {}
+        if (data && data.guest) {
+          showFormForGuest(data.guest);
+        } else {
+          showGenericForm();
+        }
+      };
+      s.onerror = function() {
+        try { delete window[cbName]; document.head.removeChild(s); } catch(e) {}
+        showGenericForm();
+      };
+      s.src = APPS_SCRIPT_URL + '?id=' + encodeURIComponent(guestId) + '&callback=' + cbName;
+      document.head.appendChild(s);
+    }
+  } else {
+    // No params — show generic form
+    showGenericForm();
+  }
+
+  function showFormForGuest(guest) {
+    guestData = guest;
+    $loading.classList.remove('visible');
+
+    // Show guest greeting
+    $guestInfo.style.display = 'block';
+    $guestNames.textContent = guest.group_label ||
+      (guest.person1_name + (guest.person2_name ? ' & ' + guest.person2_name : ''));
+
+    // Person 1
+    $person1Label.textContent = guest.person1_name +
+      (guest.person1_surname ? ' ' + guest.person1_surname : '');
+
+    // Person 2
+    if (guest.person2_name) {
+      $person2Section.style.display = 'block';
+      $person2Label.textContent = guest.person2_name +
+        (guest.person2_surname ? ' ' + guest.person2_surname : '');
+    }
+
+    // Plus one
+    if (guest.plus_one_allowed) {
+      $plusOneSection.classList.add('visible');
+    }
+
+    // Family extras (for party_size > 2, i.e. families with kids)
+    const $familyExtras = document.getElementById('family-extras-section');
+    const $familyExtrasCount = document.getElementById('family-extras-count');
+    const maxExtras = Math.max(0, (guest.party_size || 1) - (guest.person2_name ? 2 : 1));
+    if (maxExtras > 0) {
+      $familyExtras.style.display = 'block';
+      // Rebuild options up to maxExtras
+      $familyExtrasCount.innerHTML = '';
+      for (let i = 0; i <= maxExtras; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = i === 0 ? 'None' : String(i);
+        $familyExtrasCount.appendChild(opt);
+      }
+    }
+
+    $form.style.display = 'block';
+  }
+
+  function showGenericForm() {
+    $loading.classList.remove('visible');
+    $genericNames.style.display = 'block';
+    $person1Label.textContent = 'You';
+    $form.style.display = 'block';
+  }
+
+  // ============================================================
+  // Form submission
+  // ============================================================
+  $form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    $errorMsg.classList.remove('visible');
+    $submitBtn.disabled = true;
+    $submitBtn.textContent = 'Sending…';
+
+    const formData = new FormData($form);
+    const payload = {
+      id: guestData ? guestData.id : '',
+      group_label: guestData ? guestData.group_label : '',
+      person1_name: formData.get('person1_name') || (guestData ? guestData.person1_name : ''),
+      person1_surname: formData.get('person1_surname') || (guestData ? guestData.person1_surname : ''),
+      person1_attending: formData.get('person1_attending') || '',
+      person1_dietary: formData.get('person1_dietary') || '',
+      person2_attending: formData.get('person2_attending') || '',
+      person2_dietary: formData.get('person2_dietary') || '',
+      plus_one_name: formData.get('plus_one_name') || '',
+      plus_one_dietary: formData.get('plus_one_dietary') || '',
+      song_request: formData.get('song_request') || '',
+      message: formData.get('message') || '',
+      family_extras_count: formData.get('family_extras_count') || '0',
+    };
+
+    // Submit via fetch (no-cors — we can't read the response)
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    .then(() => {
+      // Optimistic success (no-cors means opaque response)
+      showConfirmation(payload);
+    })
+    .catch(() => {
+      // Even on "error", no-cors POST likely succeeded
+      showConfirmation(payload);
+    });
+  });
+
+  function showConfirmation(payload) {
+    $form.style.display = 'none';
+
+    const attending = payload.person1_attending === 'yes';
+    if (attending) {
+      $confirmationText.innerHTML =
+        'Your response has been received.<br>We can\'t wait to celebrate with you in Barcelona! 🎉';
+    } else {
+      $confirmationText.innerHTML =
+        'Your response has been received.<br>We\'ll miss you — but we\'ll raise a glass in your honour. 🥂';
+    }
+
+    $confirmation.classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+})();
+</script>
+
+</body>
+</html>

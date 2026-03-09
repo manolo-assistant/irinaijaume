@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Jaume & Irina Wedding//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART;TZID=Europe/Madrid:20260925T190000
+DTEND;TZID=Europe/Madrid:20260925T235900
+SUMMARY:Jaume & Irina's Wedding
+LOCATION:Cotton House Hotel, Gran Via de les Corts Catalanes 670, Barcelona
+DESCRIPTION:Celebració del casament de Jaume & Irina.\n\nCotton House Hotel · Barcelona\nDisvendres 25 de setembre de 2026 · 19:00h
+URL:https://irinaijaume.cat
+END:VEVENT
+END:VCALENDAR

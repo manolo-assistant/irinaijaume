@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Jaume & Irina — Barcelona 2026</title>
+<link rel="preload" as="image" href="palau.jpg">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+
+  @font-face {
+    font-family: 'Quivert';
+    src: url('Quivert.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --gold: #C4993B;
+    --gold-light: #D4AF5C;
+    --gold-pale: #E8D5A3;
+    --terracotta: #B85C38;
+    --terracotta-deep: #8B3A2A;
+    --cream: #FAF3E8;
+    --warm-white: #FDF8F0;
+    --sage: #7A8B6F;
+    --deep-green: #3D5A3E;
+    --charcoal: #2C2C2C;
+    --soft-brown: #6B5344;
+    --blush: #E8D5C4;
+    --mosaic-blue: #4A7B8C;
+    --mosaic-teal: #3A7D6E;
+    --deep-teal: #1B5E5A;
+    --burgundy: #6B1D3A;
+    --stained-rose: #C45C72;
+    --mosaic-amber: #D4943A;
+    --mosaic-cobalt: #2E5090;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Cormorant Garamond', serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === Palau background — always present, layer 1 === */
+  .palau-bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: url('palau.jpg') center center / cover no-repeat;
+  }
+
+  /* === Solid cream layer — layer 1.5, covers gaps between tessellation pieces === */
+  .cream-seal {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: var(--cream);
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+  }
+  body.ee-active .cream-seal {
+    opacity: 0;
+  }
+
+  /* === Tessellation layer — layer 2, covers palau === */
+  .tess-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .tess-piece {
+    position: fixed;
+    background: var(--cream);
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+
+  /* === Trencadís mosaic background pattern === */
+  .bg-trencadis {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0.035;
+  }
+  .bg-trencadis svg { width: 100%; height: 100%; }
+
+  /* === Ornamental Border Frame === */
+  .page-frame {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    z-index: 4;
+    transition: opacity 1s ease;
+  }
+
+  .page-frame::before,
+  .page-frame::after {
+    display: none;
+  }
+
+  /* === SVG Ornaments === */
+  .ornament {
+    display: block;
+    margin: 0 auto;
+    max-width: 340px;
+    height: auto;
+  }
+
+  .ornament-top { margin-bottom: 0.5rem; }
+  .ornament-bottom { margin-top: 1rem; }
+
+  /* === Corner ornaments === */
+  .corner-ornament {
+    position: fixed;
+    width: 120px;
+    height: 120px;
+    opacity: 0.15;
+    z-index: 5;
+    pointer-events: none;
+  }
+  .corner-ornament svg { width: 100%; height: 100%; }
+  .corner-tl { top: 16px; left: 16px; }
+  .corner-tr { top: 16px; right: 16px; transform: scaleX(-1); }
+  .corner-bl { bottom: 16px; left: 16px; transform: scaleY(-1); }
+  .corner-br { bottom: 16px; right: 16px; transform: scale(-1, -1); }
+
+  /* === Main Content === */
+  .content {
+    text-align: center;
+    max-width: 640px;
+    animation: fadeIn 2.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .save-the-date {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .names {
+    font-family: 'Quivert', 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 8vw, 5.2rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: #2E6B4A;
+    margin-bottom: 0.3rem;
+  }
+
+  .names .amp {
+    font-style: italic;
+    font-size: 0.55em;
+    color: var(--gold);
+    display: block;
+    margin: 0.1em 0;
+    font-family: 'Quivert', 'Playfair Display', serif;
+  }
+
+  /* === Trencadís divider === */
+  .trencadis-divider {
+    display: block;
+    margin: 1rem auto;
+    max-width: 320px;
+    height: auto;
+  }
+
+  .event-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--soft-brown);
+    margin-bottom: 0.5rem;
+  }
+
+  .event-detail {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--sage);
+    letter-spacing: 0.08em;
+  }
+
+  .location {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.65rem, 1.8vw, 0.78rem);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-top: 1.5rem;
+    opacity: 0.85;
+  }
+
+  /* === Countdown === */
+  .countdown {
+    display: flex;
+    justify-content: center;
+    gap: clamp(1.2rem, 4vw, 2.5rem);
+    margin-top: 1.5rem;
+  }
+
+  .countdown-unit { text-align: center; }
+
+  .countdown-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    font-weight: 400;
+    color: var(--charcoal);
+    line-height: 1;
+  }
+
+  .countdown-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 0.35rem;
+  }
+
+  /* === Add to Calendar button === */
+  .calendar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.65rem 1.8rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: transparent;
+    border: 1px solid var(--gold-light);
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.4s ease;
+    cursor: pointer;
+  }
+
+  .calendar-btn:hover {
+    background: var(--gold);
+    color: var(--cream);
+    border-color: var(--gold);
+  }
+
+  .calendar-btn svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+
+  /* === Mosaic accent bar === */
+  .mosaic-accent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    z-index: 11;
+    overflow: hidden;
+  }
+  .mosaic-accent svg { width: 100%; height: 100%; }
+
+  /* === Side ornamental rails === */
+  .side-rail {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 60vh;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.08;
+  }
+  .side-rail svg { width: 100%; height: 100%; }
+  .side-rail-left { left: 18px; }
+  .side-rail-right { right: 18px; transform: translateY(-50%) scaleX(-1); }
+
+  /* === Stained glass rose window === */
+  .rose-window {
+    display: block;
+    margin: 0 auto 1.5rem;
+    width: 80px;
+    height: 80px;
+    opacity: 0.25;
+    animation: roseGlow 6s ease-in-out infinite alternate;
+  }
+
+  @keyframes roseGlow {
+    from { opacity: 0.2; }
+    to { opacity: 0.35; }
+  }
+
+  .footer-note {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--sage);
+    margin-top: 2rem;
+    opacity: 0.6;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: opacity 0.4s ease, letter-spacing 0.4s ease;
+  }
+  .footer-note:hover {
+    opacity: 0.85;
+    letter-spacing: 0.1em;
+  }
+
+  /* === Easter egg active — ornaments fly away === */
+  body.ee-active .corner-ornament,
+  body.ee-active .side-rail {
+    transition: transform 2s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 1.5s ease;
+  }
+  body.ee-active .corner-tl { transform: translate(-200px, -200px) rotate(-45deg); opacity: 0; }
+  body.ee-active .corner-tr { transform: scaleX(-1) translate(-200px, -200px) rotate(-45deg); opacity: 0; }
+  body.ee-active .corner-bl { transform: scaleY(-1) translate(-200px, -200px) rotate(45deg); opacity: 0; }
+  body.ee-active .corner-br { transform: scale(-1,-1) translate(-200px, -200px) rotate(45deg); opacity: 0; }
+  body.ee-active .side-rail-left { transform: translateY(-50%) translateX(-100px); opacity: 0; }
+  body.ee-active .side-rail-right { transform: translateY(-50%) scaleX(-1) translateX(-100px); opacity: 0; }
+  body.ee-active .mosaic-accent { transition: transform 0.8s ease, opacity 0.6s ease; transform: translateY(20px); opacity: 0; }
+  body.ee-active .bg-trencadis { transition: opacity 0.6s ease; opacity: 0 !important; }
+  body.ee-active .page-frame { opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
+
+  /* Reverse — instant snap back */
+  body:not(.ee-active) .corner-ornament,
+  body:not(.ee-active) .side-rail,
+  body:not(.ee-active) .mosaic-accent,
+  body:not(.ee-active) .bg-trencadis {
+    transition: none;
+  }
+  body:not(.ee-active) .page-frame {
+    transition: none;
+    transform: none;
+  }
+
+  /* === Arched window frame === */
+  .arch-frame {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(500px, 85vw);
+    height: min(700px, 85vh);
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.06;
+  }
+  .arch-frame svg { width: 100%; height: 100%; }
+
+  /* === Language Toggle === */
+  .lang-toggle {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 20;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: 1px solid var(--gold-pale);
+    border-radius: 3px;
+    padding: 0.4em 0.6em;
+    background: rgba(250, 243, 232, 0.85);
+  }
+  .lang-toggle a {
+    color: var(--soft-brown);
+    text-decoration: none;
+    cursor: pointer;
+    padding: 0.15em 0.3em;
+    transition: color 0.3s ease, opacity 0.3s ease;
+    opacity: 0.5;
+  }
+  .lang-toggle a:hover { opacity: 1; color: var(--gold); }
+  .lang-toggle a.active {
+    color: var(--soft-brown);
+    opacity: 1;
+    font-weight: 600;
+  }
+  .lang-toggle .sep {
+    color: var(--soft-brown);
+    opacity: 0.35;
+    margin: 0 0.15em;
+    font-weight: 300;
+  }
+
+  @media (max-width: 480px) {
+    .page-frame { padding: 1.5rem 1rem; }
+    .corner-ornament { width: 50px; height: 50px; }
+    .side-rail { display: none; }
+    .arch-frame { opacity: 0.04; }
+    .ornament-top { max-width: 240px; margin-bottom: 0.3rem; }
+    .ornament-bottom { margin-top: 0.5rem; }
+    .save-the-date { margin-bottom: 0.5rem; }
+    .names { font-size: clamp(2.2rem, 10vw, 3.5rem); }
+    .trencadis-divider { margin: 0.5rem auto; }
+    .location { margin-top: 1rem; }
+    .countdown { margin-top: 1rem; }
+    .calendar-btn { margin-top: 1rem; }
+    .footer-note { margin-top: 1rem; }
+  }
+
+  @media (max-height: 700px) {
+    .page-frame { padding: 1rem 1rem; }
+    .ornament-top { max-width: 200px; margin-bottom: 0.2rem; }
+    .ornament-bottom { margin-top: 0.5rem; }
+    .save-the-date { margin-bottom: 0.3rem; font-size: 0.6rem; }
+    .names { font-size: clamp(1.8rem, 7vw, 2.8rem); line-height: 1.1; }
+    .names .amp { margin: 0; }
+    .trencadis-divider { margin: 0.3rem auto; }
+    .event-date { font-size: 1rem; }
+    .countdown { margin-top: 0.8rem; }
+    .calendar-btn { margin-top: 0.8rem; padding: 0.5rem 1.2rem; }
+    .footer-note { margin-top: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Layer 1: Palau background (always present, hidden behind tessellation) -->
+<div class="palau-bg-layer"></div>
+<div class="cream-seal"></div>
+
+<!-- Layer 2: Tessellation container (pieces created by JS on load) -->
+<div class="tess-layer" id="tess-layer"></div>
+
+<!-- Language Toggle -->
+<div class="lang-toggle" id="lang-toggle">
+  <a data-lang="ca" class="active">CA</a><span class="sep">·</span><a data-lang="es">ES</a><span class="sep">·</span><a data-lang="en">EN</a>
+</div>
+
+<!-- Trencadís mosaic background -->
+<div class="bg-trencadis">
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="trencadis" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+      <polygon points="0,0 18,3 15,20 2,17" fill="#C4993B" opacity="0.4"/>
+      <polygon points="20,0 42,2 38,18 17,22" fill="#3A7D6E" opacity="0.35"/>
+      <polygon points="44,1 60,0 62,15 40,19" fill="#B85C38" opacity="0.3"/>
+      <polygon points="62,2 80,0 82,17 65,14" fill="#4A7B8C" opacity="0.35"/>
+      <polygon points="82,0 100,3 98,20 80,18" fill="#C4993B" opacity="0.3"/>
+      <polygon points="100,1 120,0 120,18 102,16" fill="#6B1D3A" opacity="0.25"/>
+      <polygon points="3,20 17,23 20,42 5,38" fill="#2E5090" opacity="0.25"/>
+      <polygon points="19,24 40,20 43,40 22,44" fill="#D4943A" opacity="0.3"/>
+      <polygon points="42,21 63,17 60,42 38,38" fill="#1B5E5A" opacity="0.3"/>
+      <polygon points="65,16 84,19 80,40 60,44" fill="#C45C72" opacity="0.25"/>
+      <polygon points="85,20 100,22 102,42 83,38" fill="#7A8B6F" opacity="0.3"/>
+      <polygon points="102,18 120,20 120,40 104,43" fill="#C4993B" opacity="0.25"/>
+      <polygon points="0,40 20,43 18,62 3,58" fill="#3A7D6E" opacity="0.3"/>
+      <polygon points="22,45 42,42 45,60 20,65" fill="#C4993B" opacity="0.35"/>
+      <polygon points="44,40 62,45 58,65 40,62" fill="#4A7B8C" opacity="0.3"/>
+      <polygon points="60,46 82,42 85,60 62,63" fill="#B85C38" opacity="0.25"/>
+      <polygon points="84,40 103,44 100,62 82,65" fill="#6B1D3A" opacity="0.3"/>
+      <polygon points="104,44 120,42 120,63 100,60" fill="#2E5090" opacity="0.25"/>
+      <polygon points="2,60 20,63 18,82 0,80" fill="#D4943A" opacity="0.25"/>
+      <polygon points="18,65 42,62 40,83 22,80" fill="#1B5E5A" opacity="0.3"/>
+      <polygon points="42,64 60,67 62,82 44,85" fill="#C45C72" opacity="0.3"/>
+      <polygon points="63,65 83,63 80,85 58,82" fill="#C4993B" opacity="0.3"/>
+      <polygon points="83,66 102,62 105,82 85,86" fill="#7A8B6F" opacity="0.25"/>
+      <polygon points="103,64 120,65 120,84 105,80" fill="#3A7D6E" opacity="0.3"/>
+      <polygon points="0,82 20,84 22,100 18,120 0,120" fill="#4A7B8C" opacity="0.25"/>
+      <polygon points="22,82 42,85 40,105 44,120 20,120" fill="#C4993B" opacity="0.3"/>
+      <polygon points="44,86 62,84 65,102 60,120 42,120" fill="#B85C38" opacity="0.25"/>
+      <polygon points="64,84 82,86 80,105 82,120 62,120" fill="#2E5090" opacity="0.3"/>
+      <polygon points="84,87 104,82 102,102 100,120 80,120" fill="#D4943A" opacity="0.25"/>
+      <polygon points="106,82 120,85 120,120 102,120 100,100" fill="#1B5E5A" opacity="0.3"/>
+      <line x1="0" y1="20" x2="120" y2="18" stroke="#FAF3E8" stroke-width="1.5" opacity="0.6"/>
+      <line x1="2" y1="42" x2="120" y2="40" stroke="#FAF3E8" stroke-width="1.2" opacity="0.5"/>
+      <line x1="0" y1="62" x2="120" y2="65" stroke="#FAF3E8" stroke-width="1.5" opacity="0.6"/>
+      <line x1="3" y1="84" x2="120" y2="82" stroke="#FAF3E8" stroke-width="1.2" opacity="0.5"/>
+      <line x1="20" y1="0" x2="18" y2="120" stroke="#FAF3E8" stroke-width="1.2" opacity="0.5"/>
+      <line x1="42" y1="0" x2="40" y2="120" stroke="#FAF3E8" stroke-width="1" opacity="0.4"/>
+      <line x1="62" y1="0" x2="60" y2="120" stroke="#FAF3E8" stroke-width="1.2" opacity="0.5"/>
+      <line x1="83" y1="0" x2="82" y2="120" stroke="#FAF3E8" stroke-width="1" opacity="0.4"/>
+      <line x1="103" y1="0" x2="100" y2="120" stroke="#FAF3E8" stroke-width="1.2" opacity="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#trencadis)"/>
+</svg>
+</div>
+
+<!-- Corner ornaments — Modernisme wrought iron balcony curves (Casa Batlló inspired) -->
+<div class="corner-ornament corner-tl"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5,115 C5,50 50,5 115,5" fill="none" stroke="#C4993B" stroke-width="1.8"/>
+  <path d="M8,115 C12,65 45,30 80,15 C60,40 35,65 25,90" fill="none" stroke="#C4993B" stroke-width="1.2"/>
+  <path d="M80,15 C78,10 72,8 70,12 C68,18 74,22 80,15" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M55,30 C50,25 44,26 44,32 C44,38 52,38 55,30" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M35,55 C30,50 24,52 24,58 C24,64 32,64 35,55" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M95,8 C100,12 105,10 102,5" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.6"/>
+  <path d="M95,8 C98,15 104,16 105,10" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.6"/>
+  <path d="M18,95 C15,85 22,78 28,82 C34,86 28,94 20,92" fill="none" stroke="#C4993B" stroke-width="0.8"/>
+  <path d="M60,25 C65,35 55,50 45,48" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.5"/>
+  <path d="M40,45 C48,55 38,70 30,65" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.5"/>
+  <circle cx="80" cy="15" r="1.5" fill="#C4993B" opacity="0.5"/>
+  <circle cx="55" cy="30" r="1.2" fill="#C4993B" opacity="0.4"/>
+  <circle cx="35" cy="55" r="1.2" fill="#C4993B" opacity="0.4"/>
+</svg></div>
+<div class="corner-ornament corner-tr"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5,115 C5,50 50,5 115,5" fill="none" stroke="#C4993B" stroke-width="1.8"/>
+  <path d="M8,115 C12,65 45,30 80,15 C60,40 35,65 25,90" fill="none" stroke="#C4993B" stroke-width="1.2"/>
+  <path d="M80,15 C78,10 72,8 70,12 C68,18 74,22 80,15" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M55,30 C50,25 44,26 44,32 C44,38 52,38 55,30" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M35,55 C30,50 24,52 24,58 C24,64 32,64 35,55" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M95,8 C100,12 105,10 102,5" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.6"/>
+  <path d="M95,8 C98,15 104,16 105,10" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.6"/>
+  <path d="M18,95 C15,85 22,78 28,82 C34,86 28,94 20,92" fill="none" stroke="#C4993B" stroke-width="0.8"/>
+  <path d="M60,25 C65,35 55,50 45,48" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.5"/>
+  <path d="M40,45 C48,55 38,70 30,65" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.5"/>
+  <circle cx="80" cy="15" r="1.5" fill="#C4993B" opacity="0.5"/>
+  <circle cx="55" cy="30" r="1.2" fill="#C4993B" opacity="0.4"/>
+  <circle cx="35" cy="55" r="1.2" fill="#C4993B" opacity="0.4"/>
+</svg></div>
+<div class="corner-ornament corner-bl"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5,115 C5,50 50,5 115,5" fill="none" stroke="#C4993B" stroke-width="1.8"/>
+  <path d="M8,115 C12,65 45,30 80,15 C60,40 35,65 25,90" fill="none" stroke="#C4993B" stroke-width="1.2"/>
+  <path d="M80,15 C78,10 72,8 70,12 C68,18 74,22 80,15" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M55,30 C50,25 44,26 44,32 C44,38 52,38 55,30" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M35,55 C30,50 24,52 24,58 C24,64 32,64 35,55" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M95,8 C100,12 105,10 102,5" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.6"/>
+  <path d="M95,8 C98,15 104,16 105,10" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.6"/>
+  <path d="M18,95 C15,85 22,78 28,82 C34,86 28,94 20,92" fill="none" stroke="#C4993B" stroke-width="0.8"/>
+  <circle cx="80" cy="15" r="1.5" fill="#C4993B" opacity="0.5"/>
+  <circle cx="55" cy="30" r="1.2" fill="#C4993B" opacity="0.4"/>
+  <circle cx="35" cy="55" r="1.2" fill="#C4993B" opacity="0.4"/>
+</svg></div>
+<div class="corner-ornament corner-br"><svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5,115 C5,50 50,5 115,5" fill="none" stroke="#C4993B" stroke-width="1.8"/>
+  <path d="M8,115 C12,65 45,30 80,15 C60,40 35,65 25,90" fill="none" stroke="#C4993B" stroke-width="1.2"/>
+  <path d="M80,15 C78,10 72,8 70,12 C68,18 74,22 80,15" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M55,30 C50,25 44,26 44,32 C44,38 52,38 55,30" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M35,55 C30,50 24,52 24,58 C24,64 32,64 35,55" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M95,8 C100,12 105,10 102,5" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.6"/>
+  <path d="M95,8 C98,15 104,16 105,10" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.6"/>
+  <path d="M18,95 C15,85 22,78 28,82 C34,86 28,94 20,92" fill="none" stroke="#C4993B" stroke-width="0.8"/>
+  <circle cx="80" cy="15" r="1.5" fill="#C4993B" opacity="0.5"/>
+  <circle cx="55" cy="30" r="1.2" fill="#C4993B" opacity="0.4"/>
+  <circle cx="35" cy="55" r="1.2" fill="#C4993B" opacity="0.4"/>
+</svg></div>
+
+<!-- Side rails -->
+<div class="side-rail side-rail-left"><svg viewBox="0 0 30 400" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15,0 L15,400" stroke="#C4993B" stroke-width="0.8"/>
+  <path d="M15,30 C5,45 5,55 15,70 C25,55 25,45 15,30" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M15,80 C8,90 8,100 15,110 C22,100 22,90 15,80" fill="none" stroke="#C4993B" stroke-width="0.7"/>
+  <path d="M15,130 C5,145 5,155 15,170 C25,155 25,145 15,130" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M15,180 C8,190 8,200 15,210 C22,200 22,190 15,180" fill="none" stroke="#C4993B" stroke-width="0.7"/>
+  <path d="M15,230 C5,245 5,255 15,270 C25,255 25,245 15,230" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M15,280 C8,290 8,300 15,310 C22,300 22,290 15,280" fill="none" stroke="#C4993B" stroke-width="0.7"/>
+  <path d="M15,330 C5,345 5,355 15,370 C25,355 25,345 15,330" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <circle cx="15" cy="50" r="2" fill="#C4993B" opacity="0.5"/>
+  <circle cx="15" cy="150" r="2" fill="#C4993B" opacity="0.5"/>
+  <circle cx="15" cy="250" r="2" fill="#C4993B" opacity="0.5"/>
+  <circle cx="15" cy="350" r="2" fill="#C4993B" opacity="0.5"/>
+</svg></div>
+<div class="side-rail side-rail-right"><svg viewBox="0 0 30 400" xmlns="http://www.w3.org/2000/svg">
+  <path d="M15,0 L15,400" stroke="#C4993B" stroke-width="0.8"/>
+  <path d="M15,30 C5,45 5,55 15,70 C25,55 25,45 15,30" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M15,80 C8,90 8,100 15,110 C22,100 22,90 15,80" fill="none" stroke="#C4993B" stroke-width="0.7"/>
+  <path d="M15,130 C5,145 5,155 15,170 C25,155 25,145 15,130" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M15,180 C8,190 8,200 15,210 C22,200 22,190 15,180" fill="none" stroke="#C4993B" stroke-width="0.7"/>
+  <path d="M15,230 C5,245 5,255 15,270 C25,255 25,245 15,230" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <path d="M15,280 C8,290 8,300 15,310 C22,300 22,290 15,280" fill="none" stroke="#C4993B" stroke-width="0.7"/>
+  <path d="M15,330 C5,345 5,355 15,370 C25,355 25,345 15,330" fill="none" stroke="#C4993B" stroke-width="0.9"/>
+  <circle cx="15" cy="50" r="2" fill="#C4993B" opacity="0.5"/>
+  <circle cx="15" cy="150" r="2" fill="#C4993B" opacity="0.5"/>
+  <circle cx="15" cy="250" r="2" fill="#C4993B" opacity="0.5"/>
+  <circle cx="15" cy="350" r="2" fill="#C4993B" opacity="0.5"/>
+</svg></div>
+
+<div class="page-frame" id="page-frame">
+
+  <!-- Arched window frame behind content -->
+  <div class="arch-frame"><svg viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50,700 L50,280 C50,120 250,20 250,20 C250,20 450,120 450,280 L450,700" fill="none" stroke="#C4993B" stroke-width="2"/>
+    <path d="M70,700 L70,290 C70,140 250,50 250,50 C250,50 430,140 430,290 L430,700" fill="none" stroke="#C4993B" stroke-width="1"/>
+    <path d="M235,35 L250,20 L265,35" fill="none" stroke="#C4993B" stroke-width="1.2"/>
+    <circle cx="250" cy="20" r="4" fill="none" stroke="#C4993B" stroke-width="1"/>
+    <path d="M250,50 C200,150 150,200 120,300" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.4"/>
+    <path d="M250,50 C300,150 350,200 380,300" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.4"/>
+    <path d="M250,50 L250,200" fill="none" stroke="#C4993B" stroke-width="0.5" opacity="0.3"/>
+    <path d="M100,320 C90,300 95,280 110,290 C120,300 110,320 100,320" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.4"/>
+    <path d="M400,320 C410,300 405,280 390,290 C380,300 390,320 400,320" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.4"/>
+  </svg></div>
+
+  <div class="content">
+
+    <!-- Top ornament -->
+    <svg class="ornament ornament-top" viewBox="0 0 340 70" xmlns="http://www.w3.org/2000/svg">
+      <path d="M170,60 Q170,35 152,18 Q143,8 135,14 Q127,22 140,28 Q150,32 158,24 Q166,14 170,2 Q174,14 182,24 Q190,32 200,28 Q213,22 205,14 Q197,8 188,18 Q170,35 170,60" fill="none" stroke="#C4993B" stroke-width="1.3"/>
+      <path d="M170,2 L170,-2" stroke="#C4993B" stroke-width="1"/>
+      <circle cx="170" cy="-2" r="2.5" fill="#C45C72" opacity="0.3"/>
+      <circle cx="170" cy="2" r="1.5" fill="#C4993B" opacity="0.6"/>
+      <path d="M135,14 Q112,22 88,18 Q72,15 65,22 Q58,32 68,32 Q76,30 82,22" fill="none" stroke="#C4993B" stroke-width="0.9" opacity="0.55"/>
+      <path d="M88,18 Q78,35 65,45" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.35"/>
+      <path d="M65,22 C60,18 52,20 55,27 C58,32 65,28 65,22" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.45"/>
+      <path d="M55,27 Q35,22 20,30 Q12,36 18,40 Q25,42 30,35" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.35"/>
+      <path d="M20,30 C15,28 10,32 14,36 C18,40 22,34 20,30" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.3"/>
+      <path d="M205,14 Q228,22 252,18 Q268,15 275,22 Q282,32 272,32 Q264,30 258,22" fill="none" stroke="#C4993B" stroke-width="0.9" opacity="0.55"/>
+      <path d="M252,18 Q262,35 275,45" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.35"/>
+      <path d="M275,22 C280,18 288,20 285,27 C282,32 275,28 275,22" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.45"/>
+      <path d="M285,27 Q305,22 320,30 Q328,36 322,40 Q315,42 310,35" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.35"/>
+      <path d="M320,30 C325,28 330,32 326,36 C322,40 318,34 320,30" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.3"/>
+      <path d="M10,55 Q60,48 120,52 Q170,58 220,52 Q280,48 330,55" fill="none" stroke="#C4993B" stroke-width="0.5" opacity="0.25"/>
+    </svg>
+
+    <p class="save-the-date" data-i18n="saveTheDate">Reserva la Data</p>
+
+    <h1 class="names" id="names">
+      <span id="name1">Jaume</span>
+      <span class="amp">&amp;</span>
+      <span id="name2">Irina</span>
+    </h1>
+
+    <!-- Art Nouveau floral divider -->
+    <svg class="trencadis-divider" viewBox="0 0 320 30" xmlns="http://www.w3.org/2000/svg">
+      <line x1="130" y1="15" x2="190" y2="15" stroke="#C4993B" stroke-width="0.5" opacity="0.4"/>
+      <path d="M160,10 C155,5 150,8 153,13 C155,16 159,14 160,10" fill="none" stroke="#C4993B" stroke-width="0.8" opacity="0.5"/>
+      <path d="M160,10 C165,5 170,8 167,13 C165,16 161,14 160,10" fill="none" stroke="#C4993B" stroke-width="0.8" opacity="0.5"/>
+      <circle cx="160" cy="8" r="1.5" fill="#C4993B" opacity="0.4"/>
+      <path d="M153,13 Q130,18 100,15" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.35"/>
+      <path d="M167,13 Q190,18 220,15" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.35"/>
+    </svg>
+
+    <p class="event-date" data-i18n="dateLine">Divendres, vint-i-cinc de setembre</p>
+    <p class="event-date" style="margin-top: 0.2rem;" data-i18n="yearLine">de dos mil vint-i-sis</p>
+
+    <p class="event-detail" style="margin-top: 1.2rem;" data-i18n="celebration">Celebració a les Set del Vespre</p>
+
+    <p class="location" data-i18n="location">Cotton House · Barcelona</p>
+
+    <div class="countdown" id="countdown">
+      <div class="countdown-unit">
+        <div class="countdown-num" id="cd-days">—</div>
+        <div class="countdown-label" data-i18n="days">Dies</div>
+      </div>
+      <div class="countdown-unit">
+        <div class="countdown-num" id="cd-hours">—</div>
+        <div class="countdown-label" data-i18n="hours">Hores</div>
+      </div>
+      <div class="countdown-unit">
+        <div class="countdown-num" id="cd-min">—</div>
+        <div class="countdown-label" data-i18n="min">Min</div>
+      </div>
+    </div>
+
+    <a id="cal-btn" href="webcal://YOURDOMAIN.COM/save-the-date.ics" class="calendar-btn">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M4.5 0v2h7V0h1v2H15v14H1V2h2.5V0h1zM2 5v10h12V5H2zm2 2h2v2H4V7zm4 0h2v2H8V7zm4 0h2v2h-2V7zM4 11h2v2H4v-2zm4 0h2v2H8v-2z"/></svg>
+      <span data-i18n="calendar">Afegeix al teu Calendari</span>
+    </a>
+
+    <!-- Bottom ornament -->
+    <svg class="ornament ornament-bottom" viewBox="0 0 340 50" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10,25 Q80,10 170,25 Q260,40 330,25" fill="none" stroke="#C4993B" stroke-width="0.8" opacity="0.35"/>
+      <path d="M40,25 Q110,14 170,22 Q230,30 300,22" fill="none" stroke="#C4993B" stroke-width="1" opacity="0.45"/>
+      <line x1="170" y1="15" x2="170" y2="35" stroke="#C4993B" stroke-width="0.8" opacity="0.5"/>
+      <path d="M170,20 C160,14 155,16 158,22 C160,26 168,24 170,20" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.4"/>
+      <path d="M170,20 C180,14 185,16 182,22 C180,26 172,24 170,20" fill="none" stroke="#C4993B" stroke-width="0.7" opacity="0.4"/>
+      <path d="M170,26 C162,22 157,25 160,30 C162,33 168,30 170,26" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.35"/>
+      <path d="M170,26 C178,22 183,25 180,30 C178,33 172,30 170,26" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.35"/>
+      <circle cx="170" cy="15" r="1.5" fill="#C4993B" opacity="0.4"/>
+      <path d="M100,20 C95,16 90,18 93,23 C96,26 102,22 100,20" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.3"/>
+      <path d="M240,24 C245,20 250,22 247,27 C244,30 238,26 240,24" fill="none" stroke="#C4993B" stroke-width="0.6" opacity="0.3"/>
+    </svg>
+
+    <p class="footer-note" data-i18n="footer">Més detalls properament</p>
+
+  </div>
+</div>
+
+<!-- Trencadís mosaic accent bar at bottom -->
+<div class="mosaic-accent">
+<svg width="100%" height="6" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <defs>
+    <pattern id="mosaic-bar" x="0" y="0" width="60" height="6" patternUnits="userSpaceOnUse">
+      <polygon points="0,0 10,0 9,6 1,6" fill="#3A7D6E" opacity="0.7"/>
+      <polygon points="11,0 22,0 20,6 10,6" fill="#C4993B" opacity="0.8"/>
+      <polygon points="23,0 34,0 32,6 21,6" fill="#B85C38" opacity="0.7"/>
+      <polygon points="35,0 44,0 43,6 33,6" fill="#2E5090" opacity="0.6"/>
+      <polygon points="45,0 54,0 53,6 44,6" fill="#D4943A" opacity="0.7"/>
+      <polygon points="55,0 60,0 60,6 54,6" fill="#6B1D3A" opacity="0.6"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="6" fill="url(#mosaic-bar)"/>
+</svg>
+</div>
+
+<script>
+(function() {
+  // === i18n ===
+  var T = {
+    ca: { saveTheDate:'Reserva la Data', dateLine:'Divendres, vint-i-cinc de setembre', yearLine:'de dos mil vint-i-sis', celebration:'Celebració a les Set del Vespre', location:'Cotton House · Barcelona', days:'Dies', hours:'Hores', min:'Min', calendar:'Afegeix al teu Calendari', footer:'Més detalls properament' },
+    es: { saveTheDate:'Reserva la Fecha', dateLine:'Viernes, veinticinco de septiembre', yearLine:'de dos mil veintiséis', celebration:'Celebración a las Siete de la Tarde', location:'Cotton House · Barcelona', days:'Días', hours:'Horas', min:'Min', calendar:'Añade a tu Calendario', footer:'Más detalles próximamente' },
+    en: { saveTheDate:'Save the Date', dateLine:'Friday, the Twenty-Fifth of September', yearLine:'Two Thousand and Twenty-Six', celebration:"Evening Celebration at Seven o'Clock", location:'Cotton House · Barcelona', days:'Days', hours:'Hours', min:'Min', calendar:'Add to Your Calendar', footer:'More details to follow' }
+  };
+  function setLang(lang) {
+    if (!T[lang]) lang = 'ca';
+    var strings = T[lang];
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      if (strings[key]) el.textContent = strings[key];
+    });
+    document.documentElement.lang = lang;
+    document.querySelectorAll('#lang-toggle a[data-lang]').forEach(function(a) {
+      a.classList.toggle('active', a.getAttribute('data-lang') === lang);
+    });
+    var url = new URL(window.location);
+    url.searchParams.set('lang', lang);
+    history.replaceState(null, '', url);
+  }
+  var initLang = new URLSearchParams(window.location.search).get('lang') || 'ca';
+  setLang(initLang);
+  document.getElementById('lang-toggle').addEventListener('click', function(e) {
+    var lang = e.target.getAttribute('data-lang');
+    if (lang) setLang(lang);
+  });
+
+  // === Easter eggs ===
+  console.log('%c💒 Jaume & Irina — 26.09.2026', 'font-size:20px;font-family:serif;color:#C4993B;');
+  console.log('%cBuilt with love (and way too many git commits) by Manolo 🥸', 'font-size:12px;color:#6B5344;');
+  console.log('%cPsst... email Manolo the assistant at his email for a special surprise at the wedding 🎁', 'font-size:11px;color:#7A8B6F;font-style:italic;');
+
+  // === Random name order ===
+  if (Math.random() < 0.5) {
+    document.getElementById('name1').textContent = 'Irina';
+    document.getElementById('name2').textContent = 'Jaume';
+    document.title = 'Irina & Jaume — Barcelona 2026';
+  }
+
+  // === Countdown ===
+  const weddingDate = new Date('2026-09-25T19:00:00+02:00');
+  function update() {
+    const now = new Date();
+    const diff = weddingDate - now;
+    if (diff <= 0) {
+      document.getElementById('countdown').style.display = 'none';
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const min = Math.floor((diff % 3600000) / 60000);
+    document.getElementById('cd-days').textContent = days;
+    document.getElementById('cd-hours').textContent = hours;
+    document.getElementById('cd-min').textContent = min;
+  }
+  update();
+  setInterval(update, 30000);
+
+  // === Layered Reveal Easter Egg ===
+  var tessLayer = document.getElementById('tess-layer');
+  var pageFrame = document.getElementById('page-frame');
+  var footer = document.querySelector('.footer-note');
+  var active = false;
+  var pieces = [];
+
+  function createTessellation() {
+    var w = window.innerWidth, h = window.innerHeight;
+    var cols = 12;
+    var cellW = w / cols;
+    var rows = Math.ceil(h / cellW) + 1;
+    var cellH = h / rows;
+
+    // Generate jittered grid vertices
+    var grid = [];
+    for (var r = 0; r <= rows; r++) {
+      grid[r] = [];
+      for (var c = 0; c <= cols; c++) {
+        var bx = c * cellW, by = r * cellH;
+        var jx = 0, jy = 0;
+        if (c > 0 && c < cols) jx = (Math.random() - 0.5) * cellW * 0.55;
+        if (r > 0 && r < rows) jy = (Math.random() - 0.5) * cellH * 0.55;
+        grid[r][c] = {
+          x: Math.min(Math.max(bx + jx, -2), w + 2),
+          y: Math.min(Math.max(by + jy, -2), h + 2)
+        };
+      }
+    }
+
+    // Create two triangles per cell
+    for (var r = 0; r < rows; r++) {
+      for (var c = 0; c < cols; c++) {
+        var tl = grid[r][c], tr = grid[r][c+1];
+        var bl = grid[r+1][c], br = grid[r+1][c+1];
+
+        var triangles = Math.random() < 0.5
+          ? [[tl,tr,bl],[tr,br,bl]]
+          : [[tl,tr,br],[tl,br,bl]];
+
+        for (var t = 0; t < 2; t++) {
+          var tri = triangles[t];
+          var el = document.createElement('div');
+          el.className = 'tess-piece';
+
+          var minX = Math.min(tri[0].x, tri[1].x, tri[2].x);
+          var minY = Math.min(tri[0].y, tri[1].y, tri[2].y);
+          var maxX = Math.max(tri[0].x, tri[1].x, tri[2].x);
+          var maxY = Math.max(tri[0].y, tri[1].y, tri[2].y);
+
+          el.style.left = minX + 'px';
+          el.style.top = minY + 'px';
+          el.style.width = (maxX - minX) + 'px';
+          el.style.height = (maxY - minY) + 'px';
+
+          var p0 = (tri[0].x - minX) + 'px ' + (tri[0].y - minY) + 'px';
+          var p1 = (tri[1].x - minX) + 'px ' + (tri[1].y - minY) + 'px';
+          var p2 = (tri[2].x - minX) + 'px ' + (tri[2].y - minY) + 'px';
+          el.style.clipPath = 'polygon(' + p0 + ', ' + p1 + ', ' + p2 + ')';
+
+          // Centroid Y for bottom-to-top wave timing
+          var cy = (tri[0].y + tri[1].y + tri[2].y) / 3;
+          el._normalY = cy / h;
+
+          // Pre-compute scatter direction
+          el._tx = (Math.random() - 0.5) * 400;
+          el._ty = 200 + Math.random() * 400;
+          el._rot = (Math.random() - 0.5) * 180;
+
+          tessLayer.appendChild(el);
+          pieces.push(el);
+        }
+      }
+    }
+  }
+
+  // Create tessellation on page load
+  createTessellation();
+
+  function activate() {
+    if (active) return;
+    active = true;
+
+    // Add class for ornament fly-away
+    document.body.classList.add('ee-active');
+
+    // Animate tessellation pieces: bottom-to-top wave
+    pieces.forEach(function(el) {
+      var baseDelay = 200 + (1 - el._normalY) * 800; // fast bottom-to-top propagation
+      var jitter = (Math.random() - 0.5) * 150;
+      var delay = Math.max(0, baseDelay + jitter);
+      el.style.transition = 'transform 2.5s cubic-bezier(0.25,0.8,0.25,1) ' + delay + 'ms, opacity 2s ease ' + (delay + 300) + 'ms';
+      requestAnimationFrame(function() {
+        el.style.transform = 'translate(' + el._tx + 'px,' + el._ty + 'px) rotate(' + el._rot + 'deg)';
+        el.style.opacity = '0';
+      });
+    });
+  }
+
+  function deactivate() {
+    if (!active) return;
+    active = false;
+
+    // Kill transitions on cream seal for instant snap
+    var seal = document.querySelector('.cream-seal');
+    if (seal) { seal.style.transition = 'none'; }
+
+    document.body.classList.remove('ee-active');
+
+    // Restore cream seal transition after snap
+    requestAnimationFrame(function() {
+      if (seal) seal.style.transition = '';
+    });
+
+    // Instant snap back — no animation
+    pieces.forEach(function(el) {
+      el.style.transition = 'none';
+      el.style.transform = 'none';
+      el.style.opacity = '1';
+    });
+  }
+
+  footer.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (active) deactivate(); else activate();
+  });
+
+  // Click anywhere to return when active
+  document.addEventListener('click', function(e) {
+    if (active && e.target !== footer && !footer.contains(e.target)) {
+      deactivate();
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && active) deactivate();
+  });
+
+  // Rebuild tessellation on resize
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      if (!active) {
+        pieces.forEach(function(el) { el.remove(); });
+        pieces = [];
+        createTessellation();
+      }
+    }, 300);
+  });
+})();
+</script>
+
+</body>
+</html>
