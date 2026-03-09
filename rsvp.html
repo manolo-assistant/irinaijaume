@@ -886,8 +886,7 @@
 
     // Show guest greeting
     $guestInfo.style.display = 'block';
-    $guestNames.textContent = guest.group_label ||
-      (guest.person1_name + (guest.person2_name ? ' & ' + guest.person2_name : ''));
+    $guestNames.textContent = guest.person1_name + (guest.person2_name ? ' & ' + guest.person2_name : '');
 
     // Person 1 — prefill editable inputs
     const $p1name = document.getElementById('person1-name-input');
