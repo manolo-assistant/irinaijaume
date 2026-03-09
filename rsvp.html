@@ -548,7 +548,7 @@
 
     <!-- Guest greeting (populated by JS) -->
     <div id="guest-info" style="display:none;">
-      <p class="guest-greeting">We joyfully invite</p>
+      <p class="guest-greeting" id="greeting-text">We joyfully invite</p>
       <p class="guest-names-display" id="guest-names-display"></p>
     </div>
 
@@ -569,11 +569,11 @@
         <p class="form-section-title">Your Details</p>
         <div class="generic-names">
           <div>
-            <label class="field-label" for="gen-name1">First Name</label>
+            <label class="field-label" for="gen-name1" id="label-firstname">First Name</label>
             <input type="text" id="gen-name1" name="person1_name" required>
           </div>
           <div>
-            <label class="field-label" for="gen-surname1">Surname</label>
+            <label class="field-label" for="gen-surname1" id="label-surname">Surname</label>
             <input type="text" id="gen-surname1" name="person1_surname" required>
           </div>
         </div>
@@ -587,15 +587,15 @@
           <div class="attending-options">
             <label class="radio-label">
               <input type="radio" name="person1_attending" value="yes" required>
-              Joyfully accepts
+              <span id="radio-label-p1-yes">Joyfully accepts</span>
             </label>
             <label class="radio-label">
-              <input type="radio" name="person1_attending" value="no">
-              Regretfully declines
+              <input type="radio" name="person1_attending" value="no" id="radio-p1-no">
+              <span id="radio-label-p1-no">Regretfully declines</span>
             </label>
           </div>
           <div style="margin-top:0.6rem;">
-            <label class="field-label" for="person1-dietary">Dietary requirements or allergies</label>
+            <label class="field-label" for="person1-dietary" id="label-dietary1">Dietary requirements or allergies</label>
             <input type="text" id="person1-dietary" name="person1_dietary" placeholder="Vegetarian, vegan, gluten-free, allergies…">
           </div>
         </div>
@@ -607,16 +607,16 @@
           <p class="person-name" id="person2-label">Guest 2</p>
           <div class="attending-options">
             <label class="radio-label">
-              <input type="radio" name="person2_attending" value="yes">
-              Joyfully accepts
+              <input type="radio" name="person2_attending" value="yes" id="radio-p2-yes">
+              <span id="radio-label-p2-yes">Joyfully accepts</span>
             </label>
             <label class="radio-label">
-              <input type="radio" name="person2_attending" value="no">
-              Regretfully declines
+              <input type="radio" name="person2_attending" value="no" id="radio-p2-no">
+              <span id="radio-label-p2-no">Regretfully declines</span>
             </label>
           </div>
           <div style="margin-top:0.6rem;">
-            <label class="field-label" for="person2-dietary">Dietary requirements or allergies</label>
+            <label class="field-label" for="person2-dietary" id="label-dietary2">Dietary requirements or allergies</label>
             <input type="text" id="person2-dietary" name="person2_dietary" placeholder="Vegetarian, vegan, gluten-free, allergies…">
           </div>
         </div>
@@ -625,9 +625,9 @@
       <!-- Plus-one (hidden unless allowed) -->
       <!-- Additional family members (kids etc, hidden unless party_size > 2) -->
       <div class="form-section" id="family-extras-section" style="display:none;">
-        <p class="section-label">Additional family members</p>
+        <p class="section-label" id="label-family-section">Additional family members</p>
         <div class="field-group">
-          <label class="field-label" for="family-extras-count">How many additional family members will attend?</label>
+          <label class="field-label" for="family-extras-count" id="label-family-count">How many additional family members will attend?</label>
           <select id="family-extras-count" name="family_extras_count" class="field-input">
             <option value="0">None</option>
             <option value="1">1</option>
@@ -640,11 +640,11 @@
       <div class="form-section plus-one-section" id="plus-one-section">
         <p class="form-section-title">Your Plus One</p>
         <div>
-          <label class="field-label" for="plus-one-name">Guest name</label>
+          <label class="field-label" for="plus-one-name" id="label-plusone-name">Guest name</label>
           <input type="text" id="plus-one-name" name="plus_one_name" placeholder="Full name">
         </div>
         <div style="margin-top:0.6rem;">
-          <label class="field-label" for="plus-one-dietary">Their dietary requirements</label>
+          <label class="field-label" for="plus-one-dietary" id="label-plusone-dietary">Their dietary requirements</label>
           <input type="text" id="plus-one-dietary" name="plus_one_dietary" placeholder="Vegetarian, vegan, gluten-free, allergies…">
         </div>
       </div>
@@ -652,14 +652,14 @@
       <!-- Fun question -->
       <div class="form-section">
         <p class="form-section-title">One More Thing</p>
-        <label class="field-label" for="song-request">🎵 What song will get you on the dance floor?</label>
+        <label class="field-label" for="song-request" id="label-song">🎵 What song will get you on the dance floor?</label>
         <input type="text" id="song-request" name="song_request" placeholder="Song — Artist">
         <p class="field-hint">Help us build the perfect playlist!</p>
       </div>
 
       <!-- Message -->
       <div class="form-section">
-        <label class="field-label" for="message">A message for the couple (optional)</label>
+        <label class="field-label" for="message" id="label-message">A message for the couple (optional)</label>
         <textarea id="message" name="message" placeholder="We're so happy for you…"></textarea>
       </div>
 
@@ -708,7 +708,7 @@
   // ============================================================
   // CONFIGURATION — Update this after deploying Apps Script
   // ============================================================
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw9QNdCuZbz5y1f2dEC_o0LK0Zn1zJSJJA7vyQBxmZRaWHCkuUMagAtJD8Ek-s_s88UNg/exec';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwVKCiWccFWKT0kAO3XB74K_LVAg1luHY4rb-lPyDZMfGvuYsU78u4xAgswwmmm_X4oQQ/exec';
 
   // ============================================================
   // Parse URL parameters
@@ -810,6 +810,7 @@
 
   function showFormForGuest(guest) {
     guestData = guest;
+    setLanguage(guest.language || 'en');
     $loading.classList.remove('visible');
 
     // Show guest greeting
@@ -853,6 +854,7 @@
   }
 
   function showGenericForm() {
+    setLanguage('en');
     $loading.classList.remove('visible');
     $genericNames.style.display = 'block';
     $person1Label.textContent = 'You';
@@ -902,17 +904,137 @@
     });
   });
 
+
+  // ============================================================
+  // i18n — Multilingual support (ca / es / en)
+  // ============================================================
+  const T = {
+    ca: {
+      greeting:        'Tenim el plaer de convidar',
+      attending_q:     'Hi assistiràs?',
+      yes:             'Sí, hi seré',
+      no:              'No hi podré ser',
+      dietary_label:   'Restriccions alimentàries o al·lèrgies',
+      dietary_ph:      'Vegetarià, vegà, sense gluten, al·lèrgies…',
+      family_section:  'Membres addicionals de la família',
+      family_count:    'Quants membres addicionals assistiran?',
+      family_none:     'Cap',
+      plusone_name:    'Nom del/la convidat/da',
+      plusone_dietary: 'Restriccions alimentàries',
+      song_label:      '🎵 Quina cançó et farà pujar a la pista?',
+      song_ph:         'Cançó — Artista',
+      msg_label:       'Un missatge per a la parella (opcional)',
+      msg_ph:          'Estem molt contents per vosaltres…',
+      submit:          'Enviar resposta',
+      firstname:       'Nom',
+      surname:         'Cognoms',
+      confirm_yes:     'Hem rebut la teva resposta.<br>Tenim moltes ganes de celebrar-ho amb tu a Barcelona! 🎉',
+      confirm_no:      'Hem rebut la teva resposta.<br>Et trobarem a faltar — però brindarem per tu. 🥂',
+    },
+    es: {
+      greeting:        'Tenemos el placer de invitar',
+      attending_q:     '¿Vendrás?',
+      yes:             'Sí, allí estaré',
+      no:              'No podré asistir',
+      dietary_label:   'Restricciones alimentarias o alergias',
+      dietary_ph:      'Vegetariano, vegano, sin gluten, alergias…',
+      family_section:  'Miembros adicionales de la familia',
+      family_count:    '¿Cuántos miembros adicionales asistirán?',
+      family_none:     'Ninguno',
+      plusone_name:    'Nombre del/la acompañante',
+      plusone_dietary: 'Restricciones alimentarias',
+      song_label:      '🎵 ¿Qué canción te llevará a la pista?',
+      song_ph:         'Canción — Artista',
+      msg_label:       'Un mensaje para la pareja (opcional)',
+      msg_ph:          'Estamos muy felices por vosotros…',
+      submit:          'Enviar respuesta',
+      firstname:       'Nombre',
+      surname:         'Apellidos',
+      confirm_yes:     'Hemos recibido tu respuesta.<br>¡Tenemos muchas ganas de celebrarlo contigo en Barcelona! 🎉',
+      confirm_no:      'Hemos recibido tu respuesta.<br>Te echaremos de menos — pero brindaremos por ti. 🥂',
+    },
+    en: {
+      greeting:        'We joyfully invite',
+      attending_q:     'Will you be joining us?',
+      yes:             'Yes, I\'ll be there',
+      no:              'I\'m unable to attend',
+      dietary_label:   'Dietary requirements or allergies',
+      dietary_ph:      'Vegetarian, vegan, gluten-free, allergies…',
+      family_section:  'Additional family members',
+      family_count:    'How many additional family members will attend?',
+      family_none:     'None',
+      plusone_name:    'Guest name',
+      plusone_dietary: 'Their dietary requirements',
+      song_label:      '🎵 What song will get you on the dance floor?',
+      song_ph:         'Song — Artist',
+      msg_label:       'A message for the couple (optional)',
+      msg_ph:          'We\'re so happy for you…',
+      submit:          'Send Your Reply',
+      firstname:       'First Name',
+      surname:         'Surname',
+      confirm_yes:     'Your response has been received.<br>We can\'t wait to celebrate with you in Barcelona! 🎉',
+      confirm_no:      'Your response has been received.<br>We\'ll miss you — but we\'ll raise a glass in your honour. 🥂',
+    },
+  };
+
+  let currentLang = 'en';
+
+  function setLanguage(lang) {
+    if (!T[lang]) lang = 'en';
+    currentLang = lang;
+    const t = T[lang];
+
+    // Set html lang attribute
+    document.documentElement.lang = lang === 'ca' ? 'ca' : lang === 'es' ? 'es' : 'en';
+
+    const set = (id, prop, html) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (html) el.innerHTML = t[prop]; else el.textContent = t[prop];
+    };
+    const setph = (id, prop) => {
+      const el = document.getElementById(id);
+      if (el) el.placeholder = t[prop];
+    };
+
+    set('greeting-text', 'greeting');
+    set('label-firstname', 'firstname');
+    set('label-surname', 'surname');
+    set('label-dietary1', 'dietary_label');
+    set('label-dietary2', 'dietary_label');
+    set('label-family-section', 'family_section');
+    set('label-family-count', 'family_count');
+    set('label-plusone-name', 'plusone_name');
+    set('label-plusone-dietary', 'plusone_dietary');
+    set('label-song', 'song_label');
+    set('label-message', 'msg_label');
+    set('submit-btn', 'submit');
+
+    setph('person1-dietary', 'dietary_ph');
+    setph('person2-dietary', 'dietary_ph');
+    setph('plus-one-dietary', 'plusone_dietary');
+    setph('song-request', 'song_ph');
+    setph('message', 'msg_ph');
+    setph('plus-one-name', 'plusone_name');
+
+    // Radio labels
+    ['p1-yes', 'p1-no', 'p2-yes', 'p2-no'].forEach(id => {
+      const el = document.getElementById(`radio-label-${id}`);
+      if (!el) return;
+      el.textContent = id.endsWith('yes') ? t.yes : t.no;
+    });
+
+    // Family extras none option
+    const noneOpt = document.querySelector('#family-extras-count option[value="0"]');
+    if (noneOpt) noneOpt.textContent = t.family_none;
+  }
+
   function showConfirmation(payload) {
     $form.style.display = 'none';
 
     const attending = payload.person1_attending === 'yes';
-    if (attending) {
-      $confirmationText.innerHTML =
-        'Your response has been received.<br>We can\'t wait to celebrate with you in Barcelona! 🎉';
-    } else {
-      $confirmationText.innerHTML =
-        'Your response has been received.<br>We\'ll miss you — but we\'ll raise a glass in your honour. 🥂';
-    }
+    const t = T[currentLang] || T.en;
+    $confirmationText.innerHTML = attending ? t.confirm_yes : t.confirm_no;
 
     $confirmation.classList.add('visible');
     window.scrollTo({ top: 0, behavior: 'smooth' });
