@@ -2,8 +2,9 @@ const translations = {
   ca: {
     skip: "Vés als detalls del casament",
     wedding: "Ens casem!",
-    date: "25 de setembre de 2026",
-    time: "19 h",
+    dateFirst: "Divendres, vint-i-cinc de setembre",
+    dateSecond: "de dos mil vint-i-sis",
+    time: "A les set del vespre",
     days: "Dies",
     hours: "Hores",
     minutes: "Minuts",
@@ -16,8 +17,9 @@ const translations = {
   es: {
     skip: "Ir a los detalles de la boda",
     wedding: "¡Nos casamos!",
-    date: "25 de septiembre de 2026",
-    time: "19 h",
+    dateFirst: "Viernes, veinticinco de septiembre",
+    dateSecond: "de dos mil veintiséis",
+    time: "A las siete de la tarde",
     days: "Días",
     hours: "Horas",
     minutes: "Minutos",
@@ -30,7 +32,8 @@ const translations = {
   en: {
     skip: "Skip to the wedding details",
     wedding: "Our wedding",
-    date: "September 25th, 2026",
+    dateFirst: "Friday, the twenty-fifth of September",
+    dateSecond: "two thousand and twenty-six",
     time: "Seven o’clock in the evening",
     days: "Days",
     hours: "Hours",
@@ -49,18 +52,7 @@ const languageContents = document.querySelectorAll("[data-language-content]");
 function preferredLanguage() {
   const queryLanguage = new URLSearchParams(window.location.search).get("lang");
   if (translations[queryLanguage]) return queryLanguage;
-
-  try {
-    const savedLanguage = window.localStorage.getItem("wedding-language");
-    if (translations[savedLanguage]) return savedLanguage;
-  } catch {
-    // Storage can be unavailable in strict privacy modes.
-  }
-
-  const browserLanguage = navigator.language.toLowerCase();
-  if (browserLanguage.startsWith("ca")) return "ca";
-  if (browserLanguage.startsWith("es")) return "es";
-  return "en";
+  return "ca";
 }
 
 function setLanguage(language, updateUrl = true) {
@@ -83,12 +75,6 @@ function setLanguage(language, updateUrl = true) {
   languageContents.forEach((content) => {
     content.hidden = content.dataset.languageContent !== selectedLanguage;
   });
-
-  try {
-    window.localStorage.setItem("wedding-language", selectedLanguage);
-  } catch {
-    // The URL still preserves the selection when storage is unavailable.
-  }
 
   if (updateUrl) {
     const url = new URL(window.location.href);
