@@ -70,6 +70,34 @@ a {
   pointer-events: none;
 }
 
+.language-switch {
+  position: absolute;
+  top: 2rem;
+  right: 1.5rem;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--quiet);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+
+.language-switch button {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.language-switch button[aria-pressed="true"] {
+  border-bottom-color: currentColor;
+  color: var(--ink);
+}
+
 .invitation-content {
   position: relative;
   z-index: 1;
@@ -215,10 +243,14 @@ a {
   padding: 1rem 0 4rem;
 }
 
+.document-body[hidden] { display: none; }
+
 section {
   margin: 0;
   padding: clamp(4.5rem, 8vw, 7.5rem) 0 0;
 }
+
+.program-note { padding-top: 3rem; }
 
 .introduction {
   font-size: 1.12em;
@@ -269,6 +301,13 @@ h3 {
 
 .recommendations p { margin-bottom: 0.9em; }
 
+.payment-list {
+  margin: -0.35em 0 1.25em;
+  padding-left: 1.4em;
+}
+
+.payment-list li { margin-bottom: 0.35em; }
+
 strong { font-weight: 700; }
 
 footer {
@@ -297,6 +336,11 @@ footer {
 
   .invitation::before { inset: 0.5rem 0; }
 
+  .language-switch {
+    top: 1.35rem;
+    right: 1rem;
+  }
+
   .names {
     font-size: clamp(3.7rem, 18vw, 5.3rem);
     line-height: 0.75;
@@ -312,7 +356,7 @@ footer {
   }
 
   .schedule {
-    grid-template-columns: 6.5rem minmax(0, 1fr);
+    grid-template-columns: max-content minmax(0, 1fr);
     justify-content: stretch;
     gap: 0.65em 0.9rem;
   }
