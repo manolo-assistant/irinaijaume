@@ -1,0 +1,349 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap");
+
+:root {
+  --paper: #f7f4ed;
+  --ink: #393631;
+  --quiet: #777168;
+  --hairline: #cbc5ba;
+  --font: "EB Garamond", Garamond, serif;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: clamp(19px, 1.35vw, 23px);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--hairline);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.45rem 0.7rem;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  transform: translateY(-180%);
+}
+
+.skip-link:focus { transform: translateY(0); }
+
+/* Invitation landing, retained from the original site. */
+.invitation {
+  position: relative;
+  display: grid;
+  width: min(52rem, calc(100% - 2rem));
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: clamp(4.5rem, 9vh, 7rem) 2rem 5rem;
+  place-items: center;
+  text-align: center;
+}
+
+.invitation::before {
+  position: absolute;
+  inset: 1rem 0;
+  border: 1px solid var(--hairline);
+  content: "";
+  pointer-events: none;
+}
+
+.invitation-content {
+  position: relative;
+  z-index: 1;
+  width: min(35rem, 100%);
+}
+
+.flourish,
+.small-flourish {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  fill: none;
+  stroke: var(--hairline);
+  stroke-width: 0.9;
+}
+
+.flourish { width: min(17rem, 70vw); }
+.flourish-top { margin-bottom: 1rem; }
+.flourish-bottom { margin-top: 1.5rem; }
+
+.small-flourish {
+  width: min(9rem, 45vw);
+  margin-top: 1.15rem;
+  margin-bottom: 1.15rem;
+}
+
+.overline {
+  margin: 0;
+  color: var(--quiet);
+  font-size: 0.72rem;
+  font-variant-caps: small-caps;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: lowercase;
+}
+
+.names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.8rem 0 0;
+  font-size: clamp(4rem, 10vh, 6rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.72;
+}
+
+.names i {
+  margin: 0.24em 0 0.12em;
+  font-size: 0.38em;
+  font-weight: 400;
+}
+
+.date-line,
+.time-line {
+  margin: 0.15rem 0;
+  font-size: 1.05rem;
+  letter-spacing: 0.035em;
+}
+
+.time-line {
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+.venue {
+  display: inline-block;
+  margin-top: 0.85rem;
+  color: var(--quiet);
+  font-size: 0.78rem;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.11em;
+  text-transform: lowercase;
+}
+
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: clamp(1.5rem, 6vw, 3rem);
+  margin-top: 1.3rem;
+}
+
+.countdown strong {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.countdown span {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--quiet);
+  font-size: 0.65rem;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.1em;
+  text-transform: lowercase;
+}
+
+.calendar-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.25rem;
+  padding-bottom: 0.05rem;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 0.78rem;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: lowercase;
+}
+
+.calendar-button svg {
+  width: 0.7rem;
+  fill: currentColor;
+}
+
+.details-link {
+  position: absolute;
+  right: 50%;
+  bottom: 2.2rem;
+  z-index: 2;
+  color: var(--quiet);
+  font-size: 0.7rem;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: lowercase;
+  transform: translateX(50%);
+  white-space: nowrap;
+}
+
+/* The added information follows the source Google Doc's simple structure. */
+.document {
+  width: min(100%, 50rem);
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.document-body {
+  padding: 1rem 0 4rem;
+}
+
+section {
+  margin: 0;
+  padding: clamp(4.5rem, 8vw, 7.5rem) 0 0;
+}
+
+.introduction {
+  font-size: 1.12em;
+  font-style: italic;
+}
+
+p { margin: 0 0 1.25em; }
+
+.introduction p { margin-bottom: 2.5em; }
+
+h2 {
+  margin: 0 0 1.8em;
+  font-size: 1.42em;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h3 {
+  margin: 2.3em 0 0.35em;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.schedule {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  justify-content: center;
+  gap: 0.65em 1.4rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.25rem 0 0;
+}
+
+.schedule p {
+  display: contents;
+}
+
+.schedule time {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.aside {
+  margin-top: -1.6em;
+  font-style: italic;
+}
+
+.recommendations p { margin-bottom: 0.9em; }
+
+strong { font-weight: 700; }
+
+footer {
+  padding: 5rem 0 2.5rem;
+  color: var(--quiet);
+  font-size: 0.72em;
+  text-align: center;
+}
+
+:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 19px;
+    line-height: 1.58;
+  }
+
+  .invitation {
+    width: calc(100% - 1rem);
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .invitation::before { inset: 0.5rem 0; }
+
+  .names {
+    font-size: clamp(3.7rem, 18vw, 5.3rem);
+    line-height: 0.75;
+  }
+
+  .document {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .schedule p {
+    display: contents;
+  }
+
+  .schedule {
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    justify-content: stretch;
+    gap: 0.65em 0.9rem;
+  }
+}
+
+@media print {
+  :root {
+    --paper: #fff;
+    --ink: #000;
+    --quiet: #444;
+    --hairline: #bbb;
+  }
+
+  body { font-size: 12pt; }
+
+  .invitation {
+    min-height: 95vh;
+    break-after: page;
+  }
+
+  .details-link,
+  footer { display: none; }
+
+  .document {
+    width: 100%;
+    padding: 0;
+  }
+
+  section { break-inside: avoid-page; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
